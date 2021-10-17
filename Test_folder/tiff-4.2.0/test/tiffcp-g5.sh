@@ -1,0 +1,1 @@
+https://meduza.io/feature/2020/03/05/poslednie-dannye-po-koronavirusu-vo-vsem-mire-tablitsa
