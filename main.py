@@ -84,8 +84,6 @@ for line in lines:
         temp = temp.strip(";")
         # Разбитие строки на подстроки
         tmp_split = temp.split(";")
-        if counter == 53:
-            с = 2
         # Извлечение и обработка (удаление "лишних" символов) данных из первого столбца
         if counter != ln:# вставка из за того что не получилось удалить смайлик
             country_name = tmp_split[0]
@@ -95,22 +93,23 @@ for line in lines:
             del tmp_split[0]
             country_name = tmp_split[0]
         # Извлечение данных из оставшихся столбцов. Данные из этих столбцов должны иметь числовое значение (прочерк можно заменить на -1).
+        """
         if tmp_split[3] == '0*':
             tmp_split[3] = 0
         if tmp_split[3] != '0' and tmp_split[3] != 0:
             tmp_split[3] = re.sub('\xa0', "", tmp_split[3])
-        if tmp_split[4] == '_':
-            tmp_split[4] = -1
-        if tmp_split[4] != -1:
-            tmp_split[4] = re.sub('\xa0', "", tmp_split[4])
+        """
+        if tmp_split[3] == '_':
+            tmp_split[3] = '0%'
+        #if tmp_split[4] != -1:
+         #   tmp_split[4] = re.sub('\xa0', "", tmp_split[4])
         # Некоторые строки содержат пробелы в виде символа '\xa0'.
         col1_val = int(re.sub('\xa0', "", tmp_split[1]))
         col2_val = int(re.sub('\xa0', "", tmp_split[2]))
-        col3_val = int(tmp_split[3])
-        col4_val = int(tmp_split[4])
+        col3_val = str(re.sub('\xa0', "", tmp_split[3]))
 
         # Запись извлеченных данных в словарь
-        result_dct.update({country_name: (col1_val, col2_val, col3_val, col4_val)})
+        result_dct.update({country_name: (col1_val, col2_val, col3_val)})
         """
         for key, value in result_dct.items():
             print(key, ':', value)
@@ -122,7 +121,7 @@ for line in lines:
         output.write('\n')
         for key, value in result_dct.items():
             output.write(key)
-            output.write("  ")
+            output.write(" ; ")
             output.write(str(value))
             output.write('\n')
         counter += 1
@@ -130,5 +129,5 @@ for line in lines:
 # Задание №6
 #Вывод данных на экран для указанного первичного ключа (первый столбец таблицы)
 target_country = input("Введите название страны: ")
-print(result_dct[target_country][0], result_dct[target_country][1], result_dct[target_country][2], result_dct[target_country][3])
+print(result_dct[target_country][0], result_dct[target_country][1], result_dct[target_country][2])
 output.close()
